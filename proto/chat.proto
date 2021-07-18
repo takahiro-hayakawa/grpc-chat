@@ -1,0 +1,48 @@
+syntax = "proto3";
+package chat;
+
+option go_package = "gen/";
+
+import "user.proto";
+
+service ChatService {
+  rpc chat(stream ChatRequest) returns (stream ChatResponse) {}
+}
+
+message ChatRequest {
+  int32 room_id = 1;
+  User user = 2;
+
+  oneof action {
+    StartAction start = 3;
+    MessageAction message = 4;
+    EndAction end = 5;
+  }
+
+  message StartAction {}
+  message MessageAction {
+    Message message = 1;
+  }
+  message EndAction {}
+}
+
+message ChatResponse {
+  oneof event {
+    WaitingEvent waiting = 1;
+    ReadyEvent ready = 2;
+    MessageEvent message = 3;
+    FinishedEvent finished = 4;
+  }
+
+  message WaitingEvent {}
+  message ReadyEvent {}
+  message MessageEvent {
+    User user = 1;
+    Message message = 2;
+  }
+  message FinishedEvent {}
+}
+
+message Message {
+  string message = 1;
+}

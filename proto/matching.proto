@@ -1,0 +1,30 @@
+syntax = "proto3";
+package chat;
+
+option go_package = "gen/";
+
+import "user.proto";
+
+service MatchingService {
+  rpc JoinRoom(JoinRoomRequest) returns (stream JoinRoomResponse) {}
+}
+
+message JoinRoomRequest {};
+
+message JoinRoomResponse {
+  enum Status {
+    UNKNOWN = 0;
+    WAITING = 1;
+    MATCHED = 2;
+  }
+
+  Room room = 1;
+  User me = 2;
+  Status status = 3;
+}
+
+message Room {
+  int32 id = 1;
+  User host = 2;
+  User guest = 3;
+}
