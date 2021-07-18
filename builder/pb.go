@@ -13,8 +13,26 @@ func PBRoom(r *chat.Room) *gen.Room {
 	}
 }
 
-func PBUser(r *chat.User) *gen.User {
+func PBUser(u *chat.User) *gen.User {
+	if u == nil {
+		return nil
+	}
+
 	return &gen.User{
-		Id: r.ID,
+		Id: u.ID,
+	}
+}
+
+func Room(r *gen.Room) *chat.Room {
+	return &chat.Room{
+		ID:    r.Id,
+		Host:  User(r.Host),
+		Guest: User(r.Guest),
+	}
+}
+
+func User(u *gen.User) *chat.User {
+	return &chat.User{
+		ID: u.Id,
 	}
 }
