@@ -154,6 +154,21 @@ func (c *Chat) send(ctx context.Context, stream gen.ChatService_ChatClient) erro
 
 			message := stdin.Text()
 
+			// 特定のメッセージだったらチャットを終了する
+			if message == "chat exit" {
+				err := stream.Send(&gen.ChatRequest{
+					RoomId: c.room.ID,
+					User:   builder.PBUser(c.me),
+					Action: &gen.ChatRequest_End{
+						&gen.ChatRequest_EndAction{},
+					},
+				})
+				if err != nil {
+					fmt.Println(err)
+				}
+				return nil
+			}
+
 			go func() {
 				err := stream.Send(&gen.ChatRequest{
 					RoomId: c.room.ID,
