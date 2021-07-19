@@ -22,7 +22,7 @@ func main() {
 
 	server := grpc.NewServer()
 	gen.RegisterMatchingServiceServer(server, handler.NewMatchingHandler())
-	//gen.RegisterChatServiceServer(server, handler.NewChatHandler())
+	gen.RegisterChatServiceServer(server, handler.NewChatHandler())
 	reflection.Register(server)
 
 	go func() {

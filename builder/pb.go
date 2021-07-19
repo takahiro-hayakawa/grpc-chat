@@ -23,6 +23,12 @@ func PBUser(u *chat.User) *gen.User {
 	}
 }
 
+func PBMessage(c *chat.Message) *gen.Message {
+	return &gen.Message{
+		Message: c.Message,
+	}
+}
+
 func Room(r *gen.Room) *chat.Room {
 	return &chat.Room{
 		ID:    r.Id,
